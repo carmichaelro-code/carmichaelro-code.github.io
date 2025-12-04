@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #222;
+            background-color: #262;
             color: #eee;
             font-family: 'Press Start 2P', cursive;
             display: flex;
@@ -124,7 +124,7 @@
 
             // Simple AI movement
             if (aiPaddle.y + aiPaddle.height / 2 < ball.y) {
-                aiPaddle.y += PADDLE_SPEED * 0.7; // Slightly slower AI speed
+                aiPaddle.y += PADDLE_SPEED * 0.5; // Slightly slower AI speed
             } else if (aiPaddle.y + aiPaddle.height / 2 > ball.y) {
                 aiPaddle.y -= PADDLE_SPEED * 0.7;
             }
