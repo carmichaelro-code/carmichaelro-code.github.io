@@ -126,7 +126,7 @@
             if (aiPaddle.y + aiPaddle.height / 2 < ball.y) {
                 aiPaddle.y += PADDLE_SPEED * 0.5; // Slightly slower AI speed
             } else if (aiPaddle.y + aiPaddle.height / 2 > ball.y) {
-                aiPaddle.y -= PADDLE_SPEED * 0.7;
+                aiPaddle.y -= PADDLE_SPEED * 0.5;
             }
             // Constrain AI paddle
             aiPaddle.y = Math.max(0, Math.min(aiPaddle.y, GAME_HEIGHT - aiPaddle.height));
