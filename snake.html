@@ -101,7 +101,7 @@
         const playAgainBtn = document.getElementById('play-again-btn');
 
         // The size of each "square" in the game grid
-        const GRID_SIZE = 20;
+        const GRID_SIZE = 50;
         const CANVAS_SIZE = canvas.width;
 
         // --- Game State Variables ---
@@ -109,7 +109,7 @@
         let food;
         let dx, dy; // Direction x and y
         let changingDirection = false;
-        let gameSpeed =3100; // Milliseconds per game "tick"
+        let gameSpeed =300; // Milliseconds per game "tick"
         let score = 0;
         let gameIntervalId;
 
@@ -255,4 +255,5 @@
     </script>
 </body>
 </html>
+
 
