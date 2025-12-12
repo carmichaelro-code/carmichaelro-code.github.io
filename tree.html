@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Click Counter + Shop</title>
+    <style>
+        :root {
+            --bg-a: #ff0a0a;
+            --bg-b: #000000;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .bg {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-a), var(--bg-b));
+            color: #ffffff;
+            font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+        }
+
+        .content {
+            text-align: center;
+            padding: 2rem;
+            backdrop-filter: blur(6px);
+            border-radius: 12px;
+        }
+
+        img {
+            cursor: pointer;
+            max-width: 200px;
+            border-radius: 8px;
+        }
+
+        #counter {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .shop {
+            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .item {
+            margin: 1rem 0;
+        }
+
+        .item img {
+            max-width: 100px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg">
+        <div class="content">
+            <!-- Clicker -->
+            <img id="bread" src="bred.jpg" alt="Bread">
+            <div id="counter">Money: $0</div>
+            <div id="clickCounter">Clicks: 0</div>
+            <div id="clickValueDisplay">Click Value: $1</div>
+            <div id="autoClickerDisplay">Auto-Clickers: 0</div>
+
+            <!-- Shop -->
+            <div class="shop">
+                <h2>Shop</h2>
+                <div id="balance">Balance: $0</div>
+                <div id="inventory">Inventory: none</div>
+
+                <div class="item">
+                    <img src="2one.jpg" alt="Bread">
+                    <p id="breadPrice">Bread - $5</p>
+                    <button onclick="buyItem('Bread')">Buy</button>
+                </div>
+                <div class="item">
+                    <img src="milk.jpg" alt="Milk">
+                    <p id="milkPrice">Milk - $3</p>
+                    <button onclick="buyItem('Milk')">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let money = 0;
+        let clicks = 0;          // NEW: track clicks separately
+        let inventory = [];
+        let clickValue = 1;
+        let autoClickers = 0;
+        let autoClickInterval;
+
+        // Prices stored in an object
+        let prices = {
+            Bread: 5,
+            Milk: 3
+        };
+
+        const breadImg = document.getElementById('bread');
+
+        breadImg.addEventListener('click', () => {
+            clicks++;
+            money += clickValue;
+            updateDisplays();
+        });
+
+        function buyItem(name) {
+            let price = prices[name];
+            if (money >= price) {
+                money -= price;
+                inventory.push(name);
+
+                if (name === "Bread") {
+                    clickValue *= 2; // Bread doubles click value
+                }
+
+                if (name === "Milk") {
+                    autoClickers++; // Milk adds auto-clicker
+                    startAutoClicking();
+                }
+
+                // Increase price after purchase (50% more expensive)
+                prices[name] = Math.floor(prices[name] * 1.5);
+
+                updateDisplays();
+            } else {
+                alert("Not enough money!");
+            }
+        }
+
+        function startAutoClicking() {
+            if (!autoClickInterval) {
+                autoClickInterval = setInterval(() => {
+                    money += autoClickers * clickValue;
+                    updateDisplays();
+                }, 1000); // every second
+            }
+        }
+
+        function updateDisplays() {
+            document.getElementById('counter').textContent = "Money: $" + money;
+            document.getElementById('clickCounter').textContent = "Clicks: " + clicks;
+            document.getElementById('balance').textContent = "Balance: $" + money;
+            document.getElementById('inventory').textContent = "Inventory: " + (inventory.length ? inventory.join(", ") : "none");
+            document.getElementById('clickValueDisplay').textContent = "Click Value: $" + clickValue;
+            document.getElementById('autoClickerDisplay').textContent = "Auto-Clickers: " + autoClickers;
+
+            // Update shop prices
+            document.getElementById('breadPrice').textContent = "Bread - $" + prices.Bread;
+            document.getElementById('milkPrice').textContent = "Milk - $" + prices.Milk;
+        }
+    </script>
+</body>
+
+</html>
